@@ -1,7 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const Header = () => {
+  const { data: session } = useSession();
+  console.log(session);
   return (
     <div className="shadow-sm border-b sticky p-3 z-30 top-0 bg-white">
       <div className="flex justify-between max-w-6xl mx-auto items-center ">
@@ -27,7 +32,22 @@ const Header = () => {
 
         {/* menu  */}
 
-        <button className="text-sm text-blue-500 font-semibold"> Login</button>
+        {session ? (
+          <img
+            src={session.user.image}
+            alt="fgbf"
+            className="h-10 w-10 rounded-full cursor-pointer"
+            onClick={signOut}
+          />
+        ) : (
+          <button
+            onClick={signIn}
+            className="text-sm text-blue-500 font-semibold"
+          >
+            {" "}
+            Login
+          </button>
+        )}
       </div>
     </div>
   );
